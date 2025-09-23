@@ -14,14 +14,14 @@ return new class extends Migration {
     {
         Schema::create('form_options', function (Blueprint $table) {
             $table->id();
-            $table->string('label');
+            $table->string('label')->fulltext('labelIdx');
             $table->bigInteger('tenant_id')->unsigned()->nullable();
             $table->index('tenant_id');
             $table->timestamps();
         });
 
         // Add FULLTEXT index (Laravel Blueprint does not support it)
-        FacadesDB::statement('ALTER TABLE form_options ADD FULLTEXT fulltext_label (label)');
+        // FacadesDB::statement('ALTER TABLE form_options ADD FULLTEXT fulltext_label (label)');
 
     }
 
