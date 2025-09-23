@@ -175,7 +175,7 @@ we first add TenantScope in our app it adds a where clause to access concerned t
 leter we apply this scope globally in our app to make all our db interactions tenant aware and isolated 
 from each other
 ```php 
-// config/queue.php
+// \app\Models\Scopes\TenantScope.php
 <?php
 
 namespace App\Models\Scopes;
@@ -207,7 +207,7 @@ from
 
 
 ```php 
-// config/queue.php
+// \app\Models\Traits\Tenanted.php
 <?php
 
 namespace App\Models\Traits;
@@ -243,7 +243,7 @@ additionally we can store the tenant id in session or configuration
 using middleware 
 
 ```php 
-// config/queue.php
+// app/Http/Middleware/SetTenantIdMiddleware.php
 <?php
 
 namespace App\Http\Middleware;
@@ -284,6 +284,7 @@ Instead of directly calling eloquent models inside the controllers I add service
 the buisness logic , the service layer is responsible for data retrieval and modifications
 
 ```php
+// \app\Services\InvoiceService.php
 <?php
 
 namespace App\Services;
@@ -302,7 +303,7 @@ class InvoiceService
 }
 
 <?php
-
+// \app\Http\Controllers\InvoiceController.php
 namespace App\Http\Controllers;
 
 use App\Services\InvoiceService;
@@ -334,6 +335,7 @@ we write phpunit feature test for testing if a user associted to given tenant
 can only see his own invoices 
 
 ```php
+// \tests\Feature\MultitenantTest.php
 <?php
 
 namespace Tests\Feature;
@@ -418,7 +420,7 @@ this dashboard data.
 ```php 
 
 <?php
-
+// \app\Services\DashboardAggregationService.php
 namespace App\Services;
 
 use App\Models\Invoice;
@@ -497,6 +499,7 @@ but there is a chance when multiple requst access the dashboard the same time wh
 to avoid it we can create a job to cache the admin dashboard data
 
 ```php
+// \app\Jobs\DashboardCacheJob.php
 <?php
 
 namespace App\Jobs;
@@ -534,6 +537,7 @@ class DashboardCacheJob implements ShouldQueue
 Schedule a command to dispatch this job
 
 ```php
+// \app\Console\Commands\CacheDashboard.php
 <?php
 
 namespace App\Console\Commands;
