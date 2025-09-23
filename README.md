@@ -579,7 +579,7 @@ class CacheDashboard extends Command
 ```
 
 
-## Bonus – Laravel Telescope, Redis, and Infrastructure Notes
+## Bonus – Laravel and Infrastructure Notes
 
 ### Migration / Infrastructure Notes
 - Laravel Version Upgrade: Laravel 8 → 9
