@@ -577,3 +577,35 @@ class CacheDashboard extends Command
 
 
 ```
+
+
+## Bonus – Laravel Telescope, Redis, and Infrastructure Notes
+
+
+### Redis Queue Debugging
+- Multiple Laravel workers sometimes processed jobs out-of-order, causing inconsistent user balances.
+- Solution: Partition queues by user_id to maintain FIFO per user.
+
+Example job dispatch:
+dispatch(new UpdateBalanceJob($userId))->onQueue("user-{$userId}");
+
+Sample Redis log:
+[2025-09-23 10:22:45] INFO: Job dispatched → UpdateBalanceJob(user_id=42)
+[2025-09-23 10:22:46] INFO: Job dispatched → UpdateBalanceJob(user_id=17)
+[2025-09-23 10:22:47] INFO: Job processed → UpdateBalanceJob(user_id=17)
+[2025-09-23 10:22:48] INFO: Job processed → UpdateBalanceJob(user_id=42)
+
+### Migration / Infrastructure Notes
+- Laravel Version Upgrade: Laravel 8 → 9
+  - Updated dependencies and ensured PHP 8 compatibility.
+
+- MySQL Optimizations:
+  - Added composite indexes (tenant_id, user_id) on form_data.
+  - Created FULLTEXT indexes on form_options.label for keyword search.
+  - Tuned innodb_buffer_pool_size for faster reads.
+
+- Multi-Region Considerations:
+  - Multiple Laravel servers behind a load balancer.
+  - Read replicas in MySQL for region-local reads.
+  - Central Redis cluster with Sentinel for failover.
+  - Queue partitioning by region and user for concurrency safety.

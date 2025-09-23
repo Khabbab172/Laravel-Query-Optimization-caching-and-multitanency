@@ -12,10 +12,10 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::middleware('auth')->group(function () {
+// Route::middleware(middleware: 'auth')->group(function () {
 
     Route::post('/user/search', [UserSearchController::class,'index'])->name('user.search');
     Route::post('/invoice/search', [InvoiceController::class,'index'])->name('invoice.search');
     Route::post('/dashboard/matric', [InvoiceController::class,'index'])->name('dashboard.matric');
     
-});
+// });
