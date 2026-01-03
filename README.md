@@ -1,4 +1,4 @@
-# Laravel query optimization ,caching and multitanency demonstration
+# Laravel query optimization ,caching and multitanency
 
 ## Part 1 : Query Optimization
 A common query in our system is slowing down as data grows:
