@@ -1,4 +1,4 @@
-# Assignment
+# Laravel Query Optimization and multitanency demonstration
 
 ## Part 1 : Query Optimization
 A common query in our system is slowing down as data grows:
